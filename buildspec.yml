@@ -1,0 +1,24 @@
+version: 0.2
+
+phases:
+        install:
+                commands:
+                        - echo "Upgrade Pip install packages. Certification crew was here."
+                        - pip install --upgrade pip
+                        - make install
+                                # create the aws dir
+                        - mkdir -p ~/.aws/
+                        # create fake credential file
+                        - echo "[default]\naws_access_key_id = FakeKey\naws_secret_key = FakeKey\naws_session_token = FakeKey"\
+                                 >/.aws/credentials
+
+
+        build:
+                commands: 
+                        - echo "Run lint and test"
+                        - make lint
+        post_build:
+                commands:
+                        - echo "COPY Code TO S3"
+                        - rm -rf ~/.aws
+                        - aws s3 sync $CODEBUILD_SRC_DIR s3://pragai-aws/master --delete
