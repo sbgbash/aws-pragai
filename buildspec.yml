@@ -20,4 +20,4 @@ phases:
                 commands:
                         - echo "COPY Code TO S3"
                         - rm -rf ~/.aws
-                        - aws s3 sync $CODEBUILD_SRC_DIR s3://pragai-aws/master --delete
+                        - aws s3 sync $CODEBUILD_SRC_DIR s3://aws-pragai/master --delete
